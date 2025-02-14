@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Certified Lover Girl? V2</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            background: #ff99cc;
+            font-family: 'Comic Sans MS', cursive;
+            position: relative;
+        }
+
+        .container {
+            position: relative;
+            height: 100vh;
+        }
+
+        .hearts span {
+            position: absolute;
+            font-size: 25px;
+            animation: float 6s infinite;
+            opacity: 0;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        .message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            font-size: 3em;
+            color: #ff0066;
+            text-shadow: 2px 2px #ffffff;
+            z-index: 2;
+        }
+
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        #yes {
+            background: #ff3366;
+            color: white;
+        }
+
+        #no {
+            background: #ffffff;
+            color: #ff3366;
+            position: relative;
+            transition: all 0.1s;
+        }
+
+        .gift {
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 80px;
+            cursor: pointer;
+            display: none;
+            animation: jump 1s infinite;
+        }
+
+        @keyframes jump {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -70%) scale(1.2); }
+        }
+
+        .side-photo {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 200px;
+            height: 200px;
+            border: 5px solid white;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+
+        .side-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .spotify-link {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.2em;
+            color: white;
+            text-decoration: none;
+            background: #ff3366;
+            padding: 10px 20px;
+            border-radius: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hearts"></div>
+        
+        <div class="message">
+            <p>Be my<br>Certified Lover Girl? 💖</p>
+            <div class="buttons">
+                <button id="yes" onclick="revealGift()">OUI</button>
+                <button id="no" onmouseover="moveNo()">NON</button>
+            </div>
+        </div>
+
+        <div class="gift" onclick="window.open('https://spotify.com/ton-playlist', '_blank')">🎁</div>
+        
+        <div class="side-photo">
+            <img src="https://placehold.co/200x200?text=Ton+Image" alt="Our Photo">
+        </div>
+
+        <a href="#" class="spotify-link">Notre Playlist Love (à venir)</a>
+    </div>
+
+    <script>
+        // Création de coeurs
+        function createHearts() {
+            const hearts = document.querySelector('.hearts');
+            for (let i = 0; i < 50; i++) {
+                const heart = document.createElement('span');
+                heart.innerHTML = '❤';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                hearts.appendChild(heart);
+            }
+        }
+
+        // Déplacement du bouton NON
+        function moveNo() {
+            const noButton = document.getElementById('no');
+            const x = Math.random() * (window.innerWidth - 200);
+            const y = Math.random() * (window.innerHeight - 100);
+            noButton.style.position = 'absolute';
+            noButton.style.left = x + 'px';
+            noButton.style.top = y + 'px';
+        }
+
+        // Révéler le cadeau
+        function revealGift() {
+            const gift = document.querySelector('.gift');
+            gift.style.display = 'block';
+            document.querySelector('.buttons').style.display = 'none';
+        }
+
+        // Initialisation
+        window.onload = function() {
+            createHearts();
+            moveNo(); // Position initiale aléatoire pour le NON
+        };
+    </script>
+</body>
+</html>
