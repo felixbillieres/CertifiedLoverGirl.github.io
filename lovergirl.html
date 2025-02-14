@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Certified Lover Girl? V2</title>
+    <title>Certified Lover Girl? V3</title>
     <style>
         body {
             margin: 0;
@@ -22,6 +22,7 @@
             font-size: 25px;
             animation: float 6s infinite;
             opacity: 0;
+            pointer-events: none;
         }
 
         @keyframes float {
@@ -32,18 +33,24 @@
 
         .message {
             position: absolute;
-            top: 50%;
+            top: 40%;
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
-            font-size: 3em;
+            font-size: 4em;
             color: #ff0066;
             text-shadow: 2px 2px #ffffff;
             z-index: 2;
         }
 
+        .message p {
+            font-size: 1.5em;
+            margin: 0;
+            line-height: 1.2;
+        }
+
         .buttons {
-            margin-top: 20px;
+            margin-top: 40px;
             display: flex;
             gap: 20px;
             justify-content: center;
@@ -70,38 +77,38 @@
             transition: all 0.1s;
         }
 
-        .gift {
+        .gift-container {
             position: absolute;
-            top: 70%;
+            top: 60%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 80px;
-            cursor: pointer;
+            text-align: center;
             display: none;
+        }
+
+        .gift {
+            font-size: 100px;
+            cursor: pointer;
             animation: jump 1s infinite;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .gift-text {
+            color: #ff0066;
+            font-size: 1.5em;
+            margin-top: 20px;
+            animation: fadeIn 2s;
         }
 
         @keyframes jump {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -70%) scale(1.2); }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2) rotate(15deg); }
         }
 
-        .side-photo {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 200px;
-            height: 200px;
-            border: 5px solid white;
-            border-radius: 50%;
-            overflow: hidden;
-            box-shadow: 0 0 20px rgba(0,0,0,0.2);
-        }
-
-        .side-photo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .spotify-link {
@@ -116,6 +123,18 @@
             padding: 10px 20px;
             border-radius: 30px;
         }
+
+        .love-effect {
+            position: absolute;
+            font-size: 30px;
+            animation: explode 1s forwards;
+            pointer-events: none;
+        }
+
+        @keyframes explode {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(3) rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -123,29 +142,27 @@
         <div class="hearts"></div>
         
         <div class="message">
-            <p>Be my<br>Certified Lover Girl? 💖</p>
+            <p>BE MY<br>CERTIFIED<br>LOVER GIRL? 💖</p>
             <div class="buttons">
                 <button id="yes" onclick="revealGift()">OUI</button>
                 <button id="no" onmouseover="moveNo()">NON</button>
             </div>
         </div>
 
-        <div class="gift" onclick="window.open('https://spotify.com/ton-playlist', '_blank')">🎁</div>
-        
-        <div class="side-photo">
-            <img src="https://placehold.co/200x200?text=Ton+Image" alt="Our Photo">
+        <div class="gift-container">
+            <div class="gift" onclick="window.open('https://open.spotify.com/playlist/6iIosSP2A1rJ4g8XJZdP7U?si=eh5JmUrOSPqbFydaJPRvug&pi=DCzBTnBuTAKCh', '_blank')">🎁</div>
+            <div class="gift-text">Clique sur le cadeau mi amor 💋</div>
         </div>
 
-        <a href="#" class="spotify-link">Notre Playlist Love (à venir)</a>
     </div>
 
     <script>
-        // Création de coeurs
+        // Création de coeurs initiaux
         function createHearts() {
             const hearts = document.querySelector('.hearts');
             for (let i = 0; i < 50; i++) {
                 const heart = document.createElement('span');
-                heart.innerHTML = '❤';
+                heart.innerHTML = Math.random() > 0.5 ? '❤' : '🌹';
                 heart.style.left = Math.random() * 100 + '%';
                 heart.style.animationDelay = Math.random() * 5 + 's';
                 hearts.appendChild(heart);
@@ -162,17 +179,33 @@
             noButton.style.top = y + 'px';
         }
 
-        // Révéler le cadeau
+        // Révéler le cadeau avec effets
         function revealGift() {
-            const gift = document.querySelector('.gift');
-            gift.style.display = 'block';
+            document.querySelector('.gift-container').style.display = 'block';
             document.querySelector('.buttons').style.display = 'none';
+            
+            // Création d'effets spéciaux
+            const effects = ['❤', '🌹', '💖', '🎉'];
+            let count = 0;
+            
+            const effectInterval = setInterval(() => {
+                if(count++ > 30) clearInterval(effectInterval);
+                
+                const effect = document.createElement('div');
+                effect.className = 'love-effect';
+                effect.innerHTML = effects[Math.floor(Math.random() * effects.length)];
+                effect.style.left = Math.random() * 95 + '%';
+                effect.style.top = Math.random() * 95 + '%';
+                document.body.appendChild(effect);
+                
+                setTimeout(() => effect.remove(), 1000);
+            }, 100);
         }
 
         // Initialisation
         window.onload = function() {
             createHearts();
-            moveNo(); // Position initiale aléatoire pour le NON
+            moveNo();
         };
     </script>
 </body>
